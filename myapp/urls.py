@@ -1,7 +1,10 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', include('myapp.urls')),  # Esto redirige la página principal a tu app
+    #página del mapa
+    path('', views.mapa_principal, name='mapa_principal'),
+    
+    #ruta api para los filtros
+    path('api/parques/', views.api_obtener_parques, name='api_parques'),
 ]
