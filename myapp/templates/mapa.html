@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mapa de Áreas Verdes</title>
+
+    <!-- Hojas de estilo de Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        #mapa { height: 500px; width: 100%; border-radius: 8px; }
+        .controles { margin-bottom: 15px; font-family: Arial, sans-serif; }
+    </style>
+</head>
+<body>
+
+    <div class="controles">
+        <h2>Áreas Verdes en Santiago</h2>
+        <label for="filtro-comuna">Filtrar por Comuna:</label>
+        <select id="filtro-comuna" onchange="cargarParques()">
+            <option value="todas">Todas las comunas</option>
+            <option value="santiago">Santiago Centro</option>
+            <option value="providencia">Providencia</option>
+            <option value="las_condes">Las Condes</option>
+            <option value="nunoa">Ñuñoa</option>
+        </select>
+    </div>
+
+    <!-- Contenedor del mapa -->
+    <div id="mapa"></div>
+
+    <!-- Script de Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // Inicializar mapa centrado en Santiago
+        const map = L.map('mapa').setView([-33.4489, -70.6693], 12);
+
+        // Cargar capas de OpenStreetMap
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+
+        let marcadores = [];
+
+        function cargarParques() {
+            const comuna = document.getElementById('filtro-comuna').value;
+
+            // Limpiar pines antiguos
+            marcadores.forEach(m => map.removeLayer(m));
+            marcadores = [];
+
+            // Petición a Django
+            fetch(`/api/parques/?comuna=${comuna}`)
+                .then(respuesta => respuesta.json())
+                .then(data => {
+                    data.parques.forEach(parque => {
+                        const marcador = L.marker([parque.lat, parque.lng])
+                            .addTo(map)
+                            .bindPopup(`<b>${parque.nombre}</b><br>${parque.comuna}`);
+
+                        marcadores.push(marcador);
+                    });
+                });
+        }
+
+        // Cargar parques al abrir la página
+        cargarParques();
+    </script>
+
+</body>
+</html>
