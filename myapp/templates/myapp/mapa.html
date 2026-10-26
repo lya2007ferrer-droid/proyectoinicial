@@ -2,69 +2,103 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mapa de Áreas Verdes</title>
-
-    <!-- Hojas de estilo de Leaflet -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Áreas Verdes en Santiago</title>
+    
+    <!-- CSS de Leaflet para el mapa -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-
+    
     <style>
-        #mapa { height: 500px; width: 100%; border-radius: 8px; }
-        .controles { margin-bottom: 15px; font-family: Arial, sans-serif; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .filtro-container {
+            margin-bottom: 15px;
+        }
+        select {
+            padding: 8px;
+            font-size: 14px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+        #map {
+            width: 100%;
+            height: 500px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
 
-    <div class="controles">
-        <h2>Áreas Verdes en Santiago</h2>
-        <label for="filtro-comuna">Filtrar por Comuna:</label>
-        <select id="filtro-comuna" onchange="cargarParques()">
+    <h2>Áreas Verdes en Santiago</h2>
+
+    <!-- Selector de Comunas (IDs y Values coinciden con models.py) -->
+    <div class="filtro-container">
+        <label for="comuna-select"><strong>Filtrar por Comuna:</strong> </label>
+        <select id="comuna-select">
             <option value="todas">Todas las comunas</option>
-            <option value="santiago">Santiago Centro</option>
-            <option value="providencia">Providencia</option>
-            <option value="las_condes">Las Condes</option>
-            <option value="nunoa">Ñuñoa</option>
+            <option value="SANTIAGO">Santiago Centro</option>
+            <option value="PROVIDENCIA">Providencia</option>
+            <option value="LAS CONDES">Las Condes</option>
+            <option value="ÑUÑOA">Ñuñoa</option>
+            <option value="VITACURA">Vitacura</option>
+            <option value="LO BARNECHEA">Lo Barnechea</option>
+            <option value="SAN MIGUEL">San Miguel</option>
+            <option value="LA FLORIDA">La Florida</option>
         </select>
     </div>
 
-    <!-- Contenedor del mapa -->
-    <div id="mapa"></div>
+    <!-- Contenedor del Mapa -->
+    <div id="map"></div>
 
-    <!-- Script de Leaflet -->
+    <!-- JS de Leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
     <script>
-        // Inicializar mapa centrado en Santiago
-        const map = L.map('mapa').setView([-33.4489, -70.6693], 12);
+        // 1. Inicializar el mapa centrado en Santiago con zoom 12
+        var map = L.map('map').setView([-33.4489, -70.6693], 12);
 
+        // Capa de mapas de Esri (gratuita, sin bloqueo ni marcas de agua)
         L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
-             maxZoom: 19,
-             attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS, Intermap, iPC, NRCAN, Esri Japan, METI, Esri China (Hong Kong), Esri (Thailand), TomTom, 2012'
+            maxZoom: 19,
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS'
         }).addTo(map);
 
-        let marcadores = [];
+        // Arreglo global para almacenar los marcadores activos
+        var marcadores = [];
 
+        // 2. Función para obtener parques desde la API de Django segun la comuna seleccionada
         function cargarParques() {
-            const comuna = document.getElementById('filtro-comuna').value;
+            var comunaSeleccionada = document.getElementById('comuna-select').value;
 
-            // Limpiar pines antiguos
-            marcadores.forEach(m => map.removeLayer(m));
+            // Limpiar marcadores antiguos del mapa
+            marcadores.forEach(function(m) {
+                map.removeLayer(m);
+            });
             marcadores = [];
 
-            // Petición a Django
-            fetch(`/api/parques/?comuna=${comuna}`)
-                .then(respuesta => respuesta.json())
+            // Petición a la vista de Django
+            fetch('/api/parques/?comuna=' + encodeURIComponent(comunaSeleccionada))
+                .then(response => response.json())
                 .then(data => {
                     data.parques.forEach(parque => {
-                        const marcador = L.marker([parque.lat, parque.lng])
-                            .addTo(map)
-                            .bindPopup(`<b>${parque.nombre}</b><br>${parque.comuna}`);
-
-                        marcadores.push(marcador);
+                        // Crear marcador por cada parque devuelto
+                        var marker = L.marker([parque.lat, parque.lng])
+                            .bindPopup('<b>' + parque.nombre + '</b><br>Comuna: ' + parque.comuna)
+                            .addTo(map);
+                        
+                        marcadores.push(marker);
                     });
-                });
+                })
+                .catch(error => console.error('Error al cargar parques:', error));
         }
 
-        // Cargar parques al abrir la página
+        // 3. Escuchar el cambio en el selector desplegable
+        document.getElementById('comuna-select').addEventListener('change', cargarParques);
+
+        // Cargar parques automáticamente al abrir la página
         cargarParques();
     </script>
 
