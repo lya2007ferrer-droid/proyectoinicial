@@ -1,5 +1,18 @@
 from django.db import models
 
+
+class Actividad(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+
+    class Meta:
+        ordering = ['nombre']
+        verbose_name = 'Actividad'
+        verbose_name_plural = 'Actividades'
+
+    def __str__(self):
+        return self.nombre
+
+
 class areasverdes(models.Model):
     Comunas = [
         ("ALHUÉ", "ALHUÉ"),
@@ -55,12 +68,17 @@ class areasverdes(models.Model):
         ("TILTIL", "TILTIL"),
         ("VITACURA", "VITACURA"),
     ]
-    
+
     nombre = models.CharField(max_length=150)
     comuna = models.CharField(max_length=50, choices=Comunas)
-    
     latitud = models.FloatField()
     longitud = models.FloatField()
+
+    actividades = models.ManyToManyField(
+        Actividad,
+        blank=True,
+        related_name='parques'
+    )
 
     def __str__(self):
         return f"{self.nombre} ({self.get_comuna_display()})"
