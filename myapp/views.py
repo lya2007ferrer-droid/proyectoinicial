@@ -4,8 +4,11 @@ from django.http import JsonResponse
 from .models import areasverdes
 
 def mapa_principal(request):
-#Carga la página principal con el mapa
-    return render(request, 'myapp/mapa.html')
+    comunas = areasverdes._meta.get_field('comuna').choices
+
+    return render(request, 'myapp/mapa.html', {
+        'comunas': comunas
+    })
 
 def api_obtener_parques(request):
 #Filtra y devuelve los parques según la comuna seleccionada (formato JSON)

@@ -39,14 +39,10 @@
         <label for="comuna-select"><strong>Filtrar por Comuna:</strong> </label>
         <select id="comuna-select">
             <option value="todas">Todas las comunas</option>
-            <option value="SANTIAGO">Santiago Centro</option>
-            <option value="PROVIDENCIA">Providencia</option>
-            <option value="LAS CONDES">Las Condes</option>
-            <option value="ÑUÑOA">Ñuñoa</option>
-            <option value="VITACURA">Vitacura</option>
-            <option value="LO BARNECHEA">Lo Barnechea</option>
-            <option value="SAN MIGUEL">San Miguel</option>
-            <option value="LA FLORIDA">La Florida</option>
+
+            {% for valor, nombre in comunas %}
+                <option value="{{ valor }}">{{ nombre }}</option>
+            {% endfor %}
         </select>
     </div>
 
