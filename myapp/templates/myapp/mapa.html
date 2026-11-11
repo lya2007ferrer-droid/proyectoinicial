@@ -4,50 +4,474 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Áreas Verdes en Santiago</title>
-    
+
     <!-- CSS de Leaflet para el mapa -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .filtro-container {
-            margin-bottom: 15px;
-        }
-        select {
-            padding: 8px;
-            font-size: 14px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
-        #map {
-            width: 100%;
-            height: 500px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-    </style>
+       :root {
+    --verde: #176443;
+    --verde-oscuro: #164d39;
+    --fondo: #f5f8f5;
+    --texto: #263b30;
+    --texto-suave: #526a5d;
+    --borde: #e1e9e3;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background: var(--fondo);
+    color: var(--texto);
+}
+
+.container {
+    max-width: 1250px;
+    margin-inline: auto;
+    padding-inline: 24px;
+}
+
+/* Para quien navega con teclado */
+a:focus-visible,
+#comuna-select:focus-visible {
+    outline: 3px solid #f2c94c;
+    outline-offset: 2px;
+}
+
+/* Barra de navegación */
+.navbar {
+    background: var(--verde-oscuro);
+    color: white;
+    padding: 20px 0;
+}
+
+.navbar .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.logo {
+    font-size: 21px;
+    font-weight: bold;
+}
+
+.navbar nav {
+    display: flex;
+    gap: 20px;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.navbar a:hover {
+    text-decoration: underline;
+}
+
+/* Portada */
+.hero {
+    background: #e4f1e8;
+    padding: 65px 0;
+}
+
+.hero h1 {
+    font-size: clamp(30px, 4vw, 48px);
+    color: var(--verde-oscuro);
+    max-width: 760px;
+}
+
+.hero p {
+    color: var(--texto-suave);
+    font-size: 17px;
+    max-width: 700px;
+    line-height: 1.6;
+}
+
+/* Filtros + mapa */
+.layout {
+    display: grid;
+    grid-template-columns: 290px minmax(0, 1fr);
+    gap: 24px;
+    padding: 35px 0 50px;
+}
+
+.filtros,
+.mapa-panel {
+    background: white;
+    border: 1px solid var(--borde);
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+}
+
+.filtros {
+    padding: 24px;
+    align-self: start;
+    position: sticky;
+    top: 20px;
+}
+
+.filtros h2,
+.mapa-header h2 {
+    margin-top: 0;
+    color: var(--verde-oscuro);
+}
+
+.filtro-container label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+#comuna-select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #cadbd0;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+#comuna-select:focus {
+    border-color: var(--verde);
+}
+
+.ayuda {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid var(--borde);
+    line-height: 1.6;
+    color: var(--texto-suave);
+}
+
+.mapa-panel {
+    overflow: hidden;
+}
+
+.mapa-header {
+    padding: 20px 24px;
+}
+
+#map {
+    width: 100%;
+    height: clamp(380px, 65vh, 620px);
+}
+
+/* Celulares */
+@media (max-width: 800px) {
+    .layout {
+        grid-template-columns: 1fr;
+    }
+
+    .filtros {
+        position: static;
+    }
+
+    /* El menú se queda visible, con scroll si no cabe */
+    .navbar .container {
+        flex-wrap: wrap;
+    }
+
+    .navbar nav {
+        gap: 16px;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .hero {
+        padding: 40px 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* Diseño de las fichas de parques */
+
+.leaflet-popup-content-wrapper {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.leaflet-popup-content {
+    margin: 18px;
+    min-width: 200px;
+}
+
+.ficha-parque h3 {
+    color: #164d39;
+    font-size: 17px;
+    margin: 0 0 12px;
+}
+
+.ficha-parque p {
+    color: #526a5d;
+    font-size: 14px;
+    margin: 0;
+}
+
+.leaflet-popup-tip {
+    background: white;
+}
+
+/* Tarjeta lateral de información */
+.mapa-panel {
+    position: relative;
+}
+
+.detalle-parque {
+    position: absolute;
+    top: 105px;
+    right: 16px;
+    z-index: 1100;
+    width: min(310px, calc(100% - 32px));
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+    overflow: hidden;
+}
+
+#detalle-parque[hidden] {
+    display: none;
+}
+
+.foto-parque {
+    height: 150px;
+    background: #e4f1e8;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #164d39;
+}
+
+.foto-parque span {
+    font-size: 45px;
+}
+
+.foto-parque p {
+    font-size: 13px;
+}
+
+.detalle-contenido {
+    padding: 20px;
+}
+
+.detalle-contenido h3 {
+    color: #164d39;
+    margin: 0 0 14px;
+    font-size: 21px;
+}
+
+.detalle-contenido p {
+    color: #526a5d;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.detalle-pendiente {
+    font-style: italic;
+    font-size: 12px;
+}
+
+.cerrar-ficha {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+    border: none;
+    background: white;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    font-size: 22px;
+}
+
+/* Fotografías de los parques */
+
+.foto-parque {
+    overflow: hidden;
+}
+
+#detalle-foto {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#detalle-foto[hidden] {
+    display: none;
+}
+
+#foto-pendiente[hidden] {
+    display: none;
+}
+
+/* Actividades e instalaciones de los parques */
+
+.detalle-actividades {
+    margin-top: 20px;
+}
+
+.detalle-actividades h4 {
+    color: #164d39;
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.lista-actividades {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.actividad-etiqueta {
+    background: #e4f1e8;
+    color: #176443;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+ </style>
 </head>
 <body>
+<!-- BARRA DE NAVEGACIÓN -->
+<header class="navbar">
+    <div class="container">
+        <div class="logo">
+            🌿 Áreas Verdes Santiago
+        </div>
 
-    <h2>Áreas Verdes en Santiago</h2>
+        <nav>
+            <a href="#inicio">Inicio</a>
+            <a href="#explorar">Explorar parques</a>
+        </nav>
+    </div>
+</header>
 
-    <!-- Selector de Comunas (IDs y Values coinciden con models.py) -->
-    <div class="filtro-container">
-        <label for="comuna-select"><strong>Filtrar por Comuna:</strong> </label>
-        <select id="comuna-select">
-            <option value="todas">Todas las comunas</option>
+<!-- PORTADA -->
+<section class="hero" id="inicio">
+    <div class="container">
+        <h1>Descubre los espacios verdes de Santiago</h1>
 
-            {% for valor, nombre in comunas %}
-                <option value="{{ valor }}">{{ nombre }}</option>
-            {% endfor %}
-        </select>
+        <p>
+            Encuentra parques, plazas y lugares
+            para disfrutar de la naturaleza.
+            Explora las áreas verdes de tu comuna.
+        </p>
+    </div>
+</section>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main class="container layout" id="explorar">
+
+    <!-- PANEL DE FILTROS -->
+    <aside class="filtros">
+        <h2>Explora los parques</h2>
+
+        <p>Encuentra áreas verdes según tu ubicación.</p>
+
+        <div class="filtro-container">
+            <label for="comuna-select">
+                <strong>Filtrar por comuna</strong>
+            </label>
+
+            <select id="comuna-select">
+                <option value="todas">Todas las comunas</option>
+
+                {% for valor, nombre in comunas %}
+                    <option value="{{ valor }}">
+                        {{ nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="ayuda">
+            <strong>¿Cómo utilizar el mapa?</strong>
+
+            <p>
+                Selecciona una comuna y haz clic
+                en los marcadores para conocer
+                los parques disponibles.
+            </p>
+        </div>
+    </aside>
+
+    <!-- MAPA ORIGINAL -->
+    <section class="mapa-panel">
+
+        <div class="mapa-header">
+            <h2>Mapa de áreas verdes</h2>
+            <p>Descubre los parques de Santiago.</p>
+        </div>
+
+        <div id="map"></div>
+        <!-- Tarjeta lateral del parque -->
+<aside id="detalle-parque" class="detalle-parque" hidden>
+    <button id="cerrar-ficha" class="cerrar-ficha"
+            type="button" aria-label="Cerrar ficha">×</button>
+
+    <div class="foto-parque">
+
+    <img
+        id="detalle-foto"
+        alt="Fotografía del parque"
+        hidden
+    >
+
+    <div id="foto-pendiente">
+        <span>🌳</span>
+        <p>Fotografía próximamente</p>
     </div>
 
-    <!-- Contenedor del Mapa -->
-    <div id="map"></div>
+</div>
+
+
+    <div class="detalle-contenido">
+        <h3 id="detalle-nombre"></h3>
+        <p>📍 <span id="detalle-comuna"></span></p>
+
+        <p class="detalle-superficie">
+            📐 <strong>Superficie:</strong>
+            <span id="detalle-superficie">No disponible todavía</span>
+        </p>
+
+        <hr>
+
+        <p id = "detalle-descripcion">
+            Descripción del parque próximamente.
+        </p>
+
+        <div class="detalle-actividades">
+            <h4>🌿 Actividades e instalaciones</h4>
+            <div id="detalle-actividades" class="lista-actividades">
+                Actividades no disponibles.
+            </div>
+        </div>
+    </div>
+</aside>
+
+    </section>
+
+</main>
+
 
     <!-- JS de Leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -81,10 +505,73 @@
                 .then(data => {
                     data.parques.forEach(parque => {
                         // Crear marcador por cada parque devuelto
+                        var ficha = document.createElement('div');
+                        ficha.className = 'ficha-parque';
+
+                        var titulo = document.createElement('h3');
+                        titulo.textContent = '🌿 ' + parque.nombre;
+
+                        var ubicacion = document.createElement('p');
+                        ubicacion.textContent = '📍 Comuna: ' + parque.comuna;
+
+                        ficha.append(titulo, ubicacion);
+
                         var marker = L.marker([parque.lat, parque.lng])
-                            .bindPopup('<b>' + parque.nombre + '</b><br>Comuna: ' + parque.comuna)
+                            .bindPopup(ficha)
                             .addTo(map);
-                        
+                            // Zoom automático al seleccionar un parque
+                        marker.on('click', function() {
+                            map.flyTo([parque.lat, parque.lng], 16, {
+                                animate: true,
+                                duration: 1.5
+                            });
+                            document.getElementById('detalle-nombre').textContent = parque.nombre;
+                            document.getElementById('detalle-comuna').textContent = parque.comuna;
+                            document.getElementById('detalle-parque').hidden = false;
+                            const foto = document.getElementById('detalle-foto');
+                            const pendiente = document.getElementById('foto-pendiente');
+                            if (parque.foto_url) {
+                                foto.src = parque.foto_url;
+                                foto.alt = 'Fotografía de ' + parque.nombre;
+                                foto.hidden = false;
+                                pendiente.hidden = true;
+                            }
+
+                            else {
+                                foto.removeAttribute('src');
+                                foto.hidden = true;
+                                pendiente.hidden = false;
+                            }
+
+                            const superficie = document.getElementById('detalle-superficie');
+                            if (parque.superficie_ha !== null && parque.superficie_ha !== undefined) {
+                                superficie.textContent = parque.superficie_ha + ' hectáreas';
+                            }
+                            else {
+                                superficie.textContent = 'No disponible todavía';
+                            }
+                            const descripcion = document.getElementById('detalle-descripcion');
+                            if (parque.descripcion && parque.descripcion.trim() !== '') {
+                                descripcion.textContent = parque.descripcion;
+                            }
+                            else {
+                                descripcion.textContent = 'Descripción no disponible.';
+                            }
+                            const actividadesContenedor = document.getElementById('detalle-actividades');
+                            actividadesContenedor.replaceChildren();
+                            if (Array.isArray(parque.actividades) && parque.actividades.length > 0) {
+                                parque.actividades.forEach(function(actividad) {
+                                    const etiqueta = document.createElement('span');
+                                    etiqueta.className = 'actividad-etiqueta';
+                                    etiqueta.textContent = actividad;
+                                    actividadesContenedor.appendChild(etiqueta);
+                                });
+                            }
+                            else {
+                                actividadesContenedor.textContent = 'No hay actividades registradas.';
+                            }
+
+                        });
                         marcadores.push(marker);
                     });
                 })
@@ -93,6 +580,10 @@
 
         // 3. Escuchar el cambio en el selector desplegable
         document.getElementById('comuna-select').addEventListener('change', cargarParques);
+
+        // Botón para cerrar la tarjeta lateral
+        document.getElementById('cerrar-ficha').addEventListener('click', function() {
+        document.getElementById('detalle-parque').hidden = true;});
 
         // Cargar parques automáticamente al abrir la página
         cargarParques();

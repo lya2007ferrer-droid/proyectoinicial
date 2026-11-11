@@ -27,6 +27,11 @@ def api_obtener_parques(request):
             'comuna': parque.get_comuna_display(),
             'lat': parque.latitud,
             'lng': parque.longitud,
-        })
+            'descripcion': parque.descripcion,
+            'superficie_ha': float(parque.superficie_ha) if parque.superficie_ha is not None else None,
+            'foto_url': parque.foto.url if parque.foto else None,
+            'credito_foto': parque.credito_foto,
+            'actividades': list(parque.actividades.values_list('nombre', flat=True))
+            })
 
     return JsonResponse({'parques': datos})

@@ -74,6 +74,27 @@ class areasverdes(models.Model):
     latitud = models.FloatField()
     longitud = models.FloatField()
 
+    # Información adicional de cada parque
+    descripcion = models.TextField(blank=True)
+
+    superficie_ha = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        null=True,
+        blank=True
+    )
+
+    foto = models.ImageField(
+        upload_to='parques/',
+        blank=True
+    )
+
+    credito_foto = models.CharField(
+        max_length=200,
+        blank=True
+    )
+
+
     actividades = models.ManyToManyField(
         Actividad,
         blank=True,

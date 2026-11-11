@@ -1,0 +1,611 @@
+[
+{
+  "model": "myapp.actividad",
+  "pk": 1,
+  "fields": {
+    "nombre": "Juegos Infantiles"
+  }
+},
+{
+  "model": "myapp.actividad",
+  "pk": 2,
+  "fields": {
+    "nombre": "Escalada"
+  }
+},
+{
+  "model": "myapp.actividad",
+  "pk": 3,
+  "fields": {
+    "nombre": "Cancha de básquetbol"
+  }
+},
+{
+  "model": "myapp.actividad",
+  "pk": 4,
+  "fields": {
+    "nombre": "Columpios"
+  }
+},
+{
+  "model": "myapp.actividad",
+  "pk": 5,
+  "fields": {
+    "nombre": "Cancha de voleibol"
+  }
+},
+{
+  "model": "myapp.actividad",
+  "pk": 6,
+  "fields": {
+    "nombre": "Sanitario público"
+  }
+},
+{
+  "model": "myapp.actividad",
+  "pk": 7,
+  "fields": {
+    "nombre": "Toboganes"
+  }
+},
+{
+  "model": "myapp.actividad",
+  "pk": 8,
+  "fields": {
+    "nombre": "Pícnics"
+  }
+},
+{
+  "model": "myapp.actividad",
+  "pk": 9,
+  "fields": {
+    "nombre": "Cíclovias"
+  }
+},
+{
+  "model": "myapp.actividad",
+  "pk": 10,
+  "fields": {
+    "nombre": "Mesas de pícnic"
+  }
+},
+{
+  "model": "myapp.actividad",
+  "pk": 11,
+  "fields": {
+    "nombre": "Parque de perro"
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 1,
+  "fields": {
+    "nombre": "Parque Bustamante",
+    "comuna": "PROVIDENCIA",
+    "latitud": -33.441574974440314,
+    "longitud": -70.63185776667248,
+    "descripcion": "Parque lineal continuo que cuenta con un skatepark urbano, Café Literario, anfiteatro al aire libre y ciclovías comunitarias.",
+    "superficie_ha": "9.50",
+    "foto": "parques/Imagen_10-11-26_a_las_6.34p.m..jpeg",
+    "credito_foto": "",
+    "actividades": [
+      9,
+      2,
+      6
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 2,
+  "fields": {
+    "nombre": "Parque Forestal",
+    "comuna": "SANTIAGO",
+    "latitud": -33.4358,
+    "longitud": -70.6431,
+    "descripcion": "Parque lineal histórico bordeando el río Mapocho. Alberga el Museo Nacional de Bellas Artes y arboledas centenarias de plátanos orientales.",
+    "superficie_ha": "17.00",
+    "foto": "parques/Imagen_10-11-26_a_las_6.28p.m..jpeg",
+    "credito_foto": "",
+    "actividades": [
+      9,
+      8,
+      6
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 3,
+  "fields": {
+    "nombre": "Parque Araucano",
+    "comuna": "LAS CONDES",
+    "latitud": -33.4025,
+    "longitud": -70.5739,
+    "descripcion": "Parque urbano emblemático de Las Condes con rosedal, skatepark, canchas polideportivas y áreas de juegos tematizadas.",
+    "superficie_ha": "22.00",
+    "foto": "parques/Imagen_10-11-26_a_las_6.21p.m..jpeg",
+    "credito_foto": "",
+    "actividades": [
+      3,
+      5,
+      9,
+      2,
+      1,
+      10,
+      11,
+      8,
+      6
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 4,
+  "fields": {
+    "nombre": "Parque Bicentenario",
+    "comuna": "VITACURA",
+    "latitud": -33.4008,
+    "longitud": -70.5986,
+    "descripcion": "Parque moderno paisajístico a orillas del río Mapocho, con lagunas ornamentales, caniles y amplias explanadas de césped.",
+    "superficie_ha": "30.00",
+    "foto": "parques/Imagen_10-11-26_a_las_6.14p.m..jpeg",
+    "credito_foto": "",
+    "actividades": [
+      9,
+      10,
+      11,
+      8,
+      6
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 5,
+  "fields": {
+    "nombre": "Cerro Chena",
+    "comuna": "SAN BERNARDO",
+    "latitud": -33.5944,
+    "longitud": -70.7431,
+    "descripcion": "Parque natural y cerro isla con senderos de caminata, zonas de picnic, miradores panorámicos y sitios arqueológicos (Pucará de Chena).",
+    "superficie_ha": "45.00",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      2,
+      10,
+      8
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 6,
+  "fields": {
+    "nombre": "Plaza Patricio Aylwin",
+    "comuna": "PROVIDENCIA",
+    "latitud": -33.4379325129902,
+    "longitud": -70.61200956118732,
+    "descripcion": "Espacio público remodelado en Providencia con arboledas, pasarelas de descanso y juegos infantiles modernos.",
+    "superficie_ha": "0.60",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      4,
+      1
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 7,
+  "fields": {
+    "nombre": "Parque Inés de Suarez",
+    "comuna": "PROVIDENCIA",
+    "latitud": -33.44063347969926,
+    "longitud": -70.61163815612262,
+    "descripcion": "Extenso recinto verde cerrado con palmeras centenarias, infraestructura deportiva, zona canina y recinto para ferias.",
+    "superficie_ha": "5.00",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      3,
+      11,
+      8,
+      6
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 8,
+  "fields": {
+    "nombre": "Plaza Pedro de Valdivia",
+    "comuna": "PROVIDENCIA",
+    "latitud": -33.43895864150546,
+    "longitud": -70.6072501256731,
+    "descripcion": "Plaza cívica en el eje de la Av. Pedro de Valdivia, contigua a la Municipalidad de Providencia.",
+    "superficie_ha": "0.70",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      9
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 9,
+  "fields": {
+    "nombre": "Plaza a La Alcaldesa Alicia Cañas",
+    "comuna": "PROVIDENCIA",
+    "latitud": -33.4362381436611,
+    "longitud": -70.60036865,
+    "descripcion": "Plaza residencial tranquila en Providencia, arbolada y con mobiliario moderno de esparcimiento.",
+    "superficie_ha": "0.50",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      1
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 10,
+  "fields": {
+    "nombre": "Parque Juan XXIII — sector sur",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.4632,
+    "longitud": -70.58874,
+    "descripcion": "Tramo sur de uno de los parques más emblemáticos de Ñuñoa, con anfiteatro al aire libre, arboledas centenarias y caminos pavimentados.",
+    "superficie_ha": "2.80",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      1,
+      8,
+      7
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 11,
+  "fields": {
+    "nombre": "Parque Alcalde Ramón Cruz",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.45546,
+    "longitud": -70.58094,
+    "descripcion": "Amplio parque comunal con canchas polideportivas, zona de entrenamiento urbano y amplias áreas verdes arboladas.",
+    "superficie_ha": "3.20",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      3,
+      5,
+      9,
+      1
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 12,
+  "fields": {
+    "nombre": "Parque Botánico de Ñuñoa — Pucará",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.44548,
+    "longitud": -70.58651,
+    "descripcion": "Parque botánico de escala vecinal en calle Pucará con diversas especies arbóreas señalizadas y senderos ornamentales.",
+    "superficie_ha": "1.10",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      10,
+      8
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 13,
+  "fields": {
+    "nombre": "Parque Gorostiaga",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.44899,
+    "longitud": -70.58297,
+    "descripcion": "Espacio verde interior rodeado de sectores residenciales, ideal para actividades de esparcimiento tranquilo.",
+    "superficie_ha": "0.60",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      4,
+      1
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 14,
+  "fields": {
+    "nombre": "Plaza Ñuñoa — sector norte",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.45474,
+    "longitud": -70.59365,
+    "descripcion": "Mitad sur del centro cívico y gastronómico de Ñuñoa, frente al edificio consistorial municipal.",
+    "superficie_ha": "0.90",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      6
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 15,
+  "fields": {
+    "nombre": "Plaza Ñuñoa — sector sur",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.45609,
+    "longitud": -70.59371,
+    "descripcion": "Mitad sur del centro cívico y gastronómico de Ñuñoa, frente al edificio consistorial municipal.",
+    "superficie_ha": "0.90",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      9,
+      6
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 16,
+  "fields": {
+    "nombre": "Plaza Guillermo Franke",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.44874,
+    "longitud": -70.61664,
+    "descripcion": "Plaza arbolada caracterizada por sus senderos perimetrales e instalaciones de acondicionamiento físico.",
+    "superficie_ha": "0.50",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      2,
+      1
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 17,
+  "fields": {
+    "nombre": "Plaza Eusebio Lillo",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.45755,
+    "longitud": -70.60716,
+    "descripcion": "Plaza residencial tranquila con vegetación autóctona y zona acondicionada para mascotas.",
+    "superficie_ha": "0.30",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      11
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 18,
+  "fields": {
+    "nombre": "Plaza 18 de Septiembre",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.44461,
+    "longitud": -70.59868,
+    "descripcion": "Espacio público barrial destinado al encuentro comunitario y el juego infantil al aire libre.",
+    "superficie_ha": "0.40",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      1
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 19,
+  "fields": {
+    "nombre": "Plaza Pedro Montt",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.45257,
+    "longitud": -70.57831,
+    "descripcion": "Área verde residencial con circuitos para caminata y equipamiento infantil recreativo.",
+    "superficie_ha": "0.30",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      4,
+      1
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 20,
+  "fields": {
+    "nombre": "Plaza Los Guindos",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.45389,
+    "longitud": -70.57584,
+    "descripcion": "Plaza tradicional ubicada en la avenida Irarrázaval, de carácter familiar con abundantes sombras y mobiliario de descanso.",
+    "superficie_ha": "0.70",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      1,
+      7
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 21,
+  "fields": {
+    "nombre": "Plaza Egaña",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.45294,
+    "longitud": -70.57132,
+    "descripcion": "Punto neurálgico e hito urbano de la comuna de Ñuñoa, con alta conectividad de transporte, comercios y explanadas peatonales.",
+    "superficie_ha": "0.80",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      9
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 22,
+  "fields": {
+    "nombre": "Plaza Augusto D’Halmar",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.43797,
+    "longitud": -70.57751,
+    "descripcion": "Plaza comunal caracterizada por sus grandes árboles ornamentales, senderos interiores y espacios de descanso.",
+    "superficie_ha": "0.60",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      4,
+      10
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 23,
+  "fields": {
+    "nombre": "Plaza Zañartu",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.47268,
+    "longitud": -70.60591,
+    "descripcion": "Plaza de escala vecinal ubicada en la avenida Zañartu, equipada con arboleda nativa y senderos peatonales.",
+    "superficie_ha": "0.40",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      1
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 24,
+  "fields": {
+    "nombre": "Plaza Quillagua",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.46745,
+    "longitud": -70.59162,
+    "descripcion": "Pequeña plaza residencial tranquila con iluminación led, mobiliario urbano y zonas infantiles.",
+    "superficie_ha": "0.20",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      4,
+      7
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 25,
+  "fields": {
+    "nombre": "Plaza República de Armenia",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.45446,
+    "longitud": -70.59837,
+    "descripcion": "Espacio público con vegetación de baja altura, arboledas periféricas y senderos para caminatas cortas.",
+    "superficie_ha": "0.30",
+    "foto": "",
+    "credito_foto": "",
+    "actividades": [
+      1
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 26,
+  "fields": {
+    "nombre": "Plaza General Bonilla",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.44412,
+    "longitud": -70.59063,
+    "descripcion": "Plaza pública tradicional arbolada con áreas de sombra, bancos de descanso y juegos infantiles.",
+    "superficie_ha": "0.50",
+    "foto": "parques/Imagen_10-11-26_a_las_4.57p.m..jpeg",
+    "credito_foto": "",
+    "actividades": [
+      4,
+      1
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 27,
+  "fields": {
+    "nombre": "Parque Germán Picó Cañas — San Eugenio",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.46441,
+    "longitud": -70.62383,
+    "descripcion": "Área verde comunal en el barrio San Eugenio que ofrece vegetación consolidada, zonas de descanso y multicanchas para actividades deportivas.",
+    "superficie_ha": "1.20",
+    "foto": "parques/Imagen_10-11-26_a_las_4.53p.m..jpeg",
+    "credito_foto": "",
+    "actividades": [
+      3,
+      1
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 28,
+  "fields": {
+    "nombre": "Plaza San Esteban",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.45377,
+    "longitud": -70.62835,
+    "descripcion": "Plaza de barrio arbolada ubicada en sector residencial de Ñuñoa, ideal para descanso vecinal y recreación infantil.",
+    "superficie_ha": "0.40",
+    "foto": "parques/Imagen_10-11-26_a_las_4.40p.m..jpeg",
+    "credito_foto": "",
+    "actividades": [
+      4,
+      1
+    ]
+  }
+},
+{
+  "model": "myapp.areasverdes",
+  "pk": 29,
+  "fields": {
+    "nombre": "Parque Central Avenida General Bustamante — tramo en Ñuñoa",
+    "comuna": "ÑUÑOA",
+    "latitud": -33.45009,
+    "longitud": -70.62961,
+    "descripcion": "Tramo lineal del parque sobre Av. Bustamante en la comuna de Ñuñoa. Cuenta con pasarelas arboladas, ciclovías comunitarias y áreas verdes de descanso.",
+    "superficie_ha": "1.50",
+    "foto": "parques/Imagen_10-11-26_a_las_4.35p.m..jpeg",
+    "credito_foto": "",
+    "actividades": [
+      9,
+      1
+    ]
+  }
+}
+]

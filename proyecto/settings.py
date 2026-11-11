@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,7 +21,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ddnfh=on=!esd0-^yd^9jzn-=s9ddf*59z9!&x8b@1tqk6k(5%'
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY") or (
+    BASE_DIR / ".django_secret_key"
+).read_text(encoding="utf-8").strip()
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -126,3 +130,7 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+# Fotografías de los parques
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
