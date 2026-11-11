@@ -12,3 +12,19 @@ Ejecución entorno local:
 5. Aplicar las migraciones para iniciar la base de datos SQLite: python manage.py migrate
 6. Inicia el servidor de desarrollo: python manage.py runserver
 7. Abre en tu navegador: http://127.0.0.1:8000/
+
+# Crear usuario admin
+
+python manage.py createsuperuser
+3.Completa lo que te solicite:
+- Username: nombre de usuario.
+- Email address: correo electrónico.
+- Password: contraseña.
+- Password (again): repite la contraseña.
+La contraseña no se muestra mientras escribes; es normal.
+
+4.Cuando aparezca Superuser created successfully, inicia el servidor:
+python manage.py runserver
+
+
+5.Entra a http://127.0.0.1:8000/admin/ e inicia sesión con la cuenta creada.
