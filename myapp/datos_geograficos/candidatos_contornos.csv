@@ -1,0 +1,77 @@
+﻿ID parque,Parque,Comuna,Candidato OSM,Similitud,Enlace OSM
+1,Parque Bustamante,PROVIDENCIA,Parque Bustamante,1.0,https://www.openstreetmap.org/way/41989182
+1,Parque Bustamante,PROVIDENCIA,Parque Balmaceda,0.73,https://www.openstreetmap.org/relation/12184678
+1,Parque Bustamante,PROVIDENCIA,Parque Forestal,0.62,https://www.openstreetmap.org/way/332070819
+2,Parque Forestal,SANTIAGO,Parque Forestal,1.0,https://www.openstreetmap.org/way/332070819
+2,Parque Forestal,SANTIAGO,Parque San Borja,0.65,https://www.openstreetmap.org/way/23321903
+2,Parque Forestal,SANTIAGO,Parque Gómez Rojas,0.61,https://www.openstreetmap.org/way/23389775
+3,Parque Araucano,LAS CONDES,Parque Araucano,1.0,https://www.openstreetmap.org/way/22371383
+3,Parque Araucano,LAS CONDES,Parque Juan Pablo II,0.63,https://www.openstreetmap.org/way/23678057
+3,Parque Araucano,LAS CONDES,Plaza de las Palabras,0.28,https://www.openstreetmap.org/relation/6645018
+4,Parque Bicentenario,VITACURA,Parque Bicentenario,1.0,https://www.openstreetmap.org/way/93992786
+4,Parque Bicentenario,VITACURA,Parque Metropolitano de Santiago,0.51,https://www.openstreetmap.org/way/168227059
+4,Parque Bicentenario,VITACURA,Jardín Biodiverso,0.44,https://www.openstreetmap.org/way/1535027629
+6,Plaza Patricio Aylwin,PROVIDENCIA,Plaza Patricio Aylwin Azócar,0.86,https://www.openstreetmap.org/way/13910379
+6,Plaza Patricio Aylwin,PROVIDENCIA,Plaza Ambrosio del Río,0.6,https://www.openstreetmap.org/way/30471017
+6,Plaza Patricio Aylwin,PROVIDENCIA,Plaza Pedro de Valdivia,0.59,https://www.openstreetmap.org/way/180565682
+7,Parque Inés de Suarez,PROVIDENCIA,Parque Inés de Suárez,1.0,https://www.openstreetmap.org/way/582417570
+7,Parque Inés de Suarez,PROVIDENCIA,Plaza Ambrosio del Río,0.42,https://www.openstreetmap.org/way/30471017
+7,Parque Inés de Suarez,PROVIDENCIA,Plaza Patricio Aylwin Azócar,0.37,https://www.openstreetmap.org/way/13910379
+8,Plaza Pedro de Valdivia,PROVIDENCIA,Plaza Pedro de Valdivia,1.0,https://www.openstreetmap.org/way/180565682
+8,Plaza Pedro de Valdivia,PROVIDENCIA,Plaza Patricio Aylwin Azócar,0.51,https://www.openstreetmap.org/way/13910379
+8,Plaza Pedro de Valdivia,PROVIDENCIA,Plaza Alcaldesa Alicia Cañas,0.47,https://www.openstreetmap.org/way/23364864
+9,Plaza a La Alcaldesa Alicia Cañas,PROVIDENCIA,Plaza Alcaldesa Alicia Cañas,0.92,https://www.openstreetmap.org/way/23364864
+9,Plaza a La Alcaldesa Alicia Cañas,PROVIDENCIA,Plazuela Las Dalias,0.58,https://www.openstreetmap.org/way/37777235
+9,Plaza a La Alcaldesa Alicia Cañas,PROVIDENCIA,Plaza Pedro de Valdivia,0.5,https://www.openstreetmap.org/way/180565682
+10,Parque Juan XXIII — sector sur,ÑUÑOA,Parque Juan XXIII,0.72,https://www.openstreetmap.org/way/93167013
+10,Parque Juan XXIII — sector sur,ÑUÑOA,Parque Juan XXIII,0.72,https://www.openstreetmap.org/way/93167011
+10,Parque Juan XXIII — sector sur,ÑUÑOA,Parque Juan XXIII,0.72,https://www.openstreetmap.org/relation/18117005
+11,Parque Alcalde Ramón Cruz,ÑUÑOA,Parque Alcalde Ramón Cruz,1.0,https://www.openstreetmap.org/way/24400652
+11,Parque Alcalde Ramón Cruz,ÑUÑOA,Parque Casa de la Cultura,0.56,https://www.openstreetmap.org/way/56044933
+11,Parque Alcalde Ramón Cruz,ÑUÑOA,Parque Juan XXIII,0.48,https://www.openstreetmap.org/relation/18117005
+12,Parque Botánico de Ñuñoa — Pucará,ÑUÑOA,Parque Botánico de Ñuñoa,0.84,https://www.openstreetmap.org/way/50775206
+12,Parque Botánico de Ñuñoa — Pucará,ÑUÑOA,Patio de Música,0.5,https://www.openstreetmap.org/way/1574200580
+12,Parque Botánico de Ñuñoa — Pucará,ÑUÑOA,Parque Gorostiaga,0.44,https://www.openstreetmap.org/way/187025924
+13,Parque Gorostiaga,ÑUÑOA,Parque Gorostiaga,1.0,https://www.openstreetmap.org/way/187025924
+13,Parque Gorostiaga,ÑUÑOA,Parque Botánico de Ñuñoa,0.49,https://www.openstreetmap.org/way/50775206
+13,Parque Gorostiaga,ÑUÑOA,Poeta Ángel Cruchaga,0.38,https://www.openstreetmap.org/way/313908476
+14,Plaza Ñuñoa — sector norte,ÑUÑOA,Plaza Ñuñoa,0.59,https://www.openstreetmap.org/way/23591946
+14,Plaza Ñuñoa — sector norte,ÑUÑOA,Plaza Ñuñoa,0.59,https://www.openstreetmap.org/way/158130619
+14,Plaza Ñuñoa — sector norte,ÑUÑOA,Plaza Armenia,0.41,https://www.openstreetmap.org/way/23669489
+15,Plaza Ñuñoa — sector sur,ÑUÑOA,Plaza Ñuñoa,0.63,https://www.openstreetmap.org/way/23591946
+15,Plaza Ñuñoa — sector sur,ÑUÑOA,Plaza Ñuñoa,0.63,https://www.openstreetmap.org/way/158130619
+15,Plaza Ñuñoa — sector sur,ÑUÑOA,Plaza Armenia,0.43,https://www.openstreetmap.org/way/23669489
+16,Plaza Guillermo Franke,ÑUÑOA,Plaza Guillermo Franke,1.0,https://www.openstreetmap.org/way/24445153
+16,Plaza Guillermo Franke,ÑUÑOA,Plaza Sucre,0.48,https://www.openstreetmap.org/way/241299116
+16,Plaza Guillermo Franke,ÑUÑOA,Plaza Santa Isabel,0.45,https://www.openstreetmap.org/way/1288639808
+17,Plaza Eusebio Lillo,ÑUÑOA,Plaza Lillo,0.73,https://www.openstreetmap.org/way/116870418
+18,Plaza 18 de Septiembre,ÑUÑOA,Plaza 18 de Septiembre,1.0,https://www.openstreetmap.org/way/19855050
+18,Plaza 18 de Septiembre,ÑUÑOA,Patio de Música,0.43,https://www.openstreetmap.org/way/1574200580
+18,Plaza 18 de Septiembre,ÑUÑOA,Plaza Pedro Lautaro Ferrer,0.42,https://www.openstreetmap.org/way/191507281
+19,Plaza Pedro Montt,ÑUÑOA,Plaza Pedro Montt,1.0,https://www.openstreetmap.org/way/319625014
+19,Plaza Pedro Montt,ÑUÑOA,Plaza Egaña,0.57,https://www.openstreetmap.org/way/301276875
+19,Plaza Pedro Montt,ÑUÑOA,Plaza Los Guindos,0.47,https://www.openstreetmap.org/way/493040916
+20,Plaza Los Guindos,ÑUÑOA,Plaza Los Guindos,1.0,https://www.openstreetmap.org/way/493040916
+20,Plaza Los Guindos,ÑUÑOA,Plaza Egaña,0.57,https://www.openstreetmap.org/way/301276875
+20,Plaza Los Guindos,ÑUÑOA,Plaza Pedro Montt,0.53,https://www.openstreetmap.org/way/319625014
+21,Plaza Egaña,ÑUÑOA,Plaza Egaña,1.0,https://www.openstreetmap.org/way/301276875
+21,Plaza Egaña,ÑUÑOA,Plaza Pedro Montt,0.57,https://www.openstreetmap.org/way/319625014
+21,Plaza Egaña,ÑUÑOA,Plaza Los Guindos,0.57,https://www.openstreetmap.org/way/493040916
+22,Plaza Augusto D’Halmar,ÑUÑOA,Plaza Agusto D'Halmar,0.93,https://www.openstreetmap.org/way/24400239
+22,Plaza Augusto D’Halmar,ÑUÑOA,Plaza Fanor Blanco,0.5,https://www.openstreetmap.org/way/24400498
+22,Plaza Augusto D’Halmar,ÑUÑOA,Parque Tobalaba - Canal San Carlos,0.36,https://www.openstreetmap.org/way/1457591729
+24,Plaza Quillagua,ÑUÑOA,Plaza Quillagua,1.0,https://www.openstreetmap.org/way/638887839
+24,Plaza Quillagua,ÑUÑOA,Plaza Calama,0.67,https://www.openstreetmap.org/way/606928226
+24,Plaza Quillagua,ÑUÑOA,Plaza Premio Nobel,0.48,https://www.openstreetmap.org/way/591302991
+25,Plaza República de Armenia,ÑUÑOA,Plaza Armenia,0.67,https://www.openstreetmap.org/way/23669489
+25,Plaza República de Armenia,ÑUÑOA,Plaza Ñuñoa,0.43,https://www.openstreetmap.org/way/23591946
+25,Plaza República de Armenia,ÑUÑOA,Plaza Ñuñoa,0.43,https://www.openstreetmap.org/way/158130619
+26,Plaza General Bonilla,ÑUÑOA,Plaza General Bonilla,1.0,https://www.openstreetmap.org/way/225863650
+26,Plaza General Bonilla,ÑUÑOA,Plaza El Bosque,0.61,https://www.openstreetmap.org/way/37020604
+26,Plaza General Bonilla,ÑUÑOA,Plaza El Aguilucho,0.56,https://www.openstreetmap.org/way/180564681
+27,Parque Germán Picó Cañas — San Eugenio,ÑUÑOA,Parque Germán Picó Cañas,0.77,https://www.openstreetmap.org/way/37248898
+27,Parque Germán Picó Cañas — San Eugenio,ÑUÑOA,Plaza Lo Encalada,0.33,https://www.openstreetmap.org/way/447342404
+27,Parque Germán Picó Cañas — San Eugenio,ÑUÑOA,Plaza Arturo Godoy,0.29,https://www.openstreetmap.org/way/338492175
+28,Plaza San Esteban,ÑUÑOA,Plaza San Esteban,1.0,https://www.openstreetmap.org/way/23394799
+28,Plaza San Esteban,ÑUÑOA,Parque San Esteban De Hungría,0.61,https://www.openstreetmap.org/way/24445122
+28,Plaza San Esteban,ÑUÑOA,Plaza Lo Encalada,0.53,https://www.openstreetmap.org/way/447342404
