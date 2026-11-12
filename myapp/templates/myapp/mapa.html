@@ -9,6 +9,11 @@
     <!-- CSS de Leaflet para el mapa -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
+    <link rel="stylesheet"
+      href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+
+    <link rel="stylesheet"
+      href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
     <style>
        :root {
     --verde: #176443;
@@ -1019,8 +1024,28 @@ body {
     font-weight: 700;
 }
 
+/* GeoVerde: comuna en negrita */
+#detalle-comuna {
+    font-weight: 700;
+}
 
- </style>
+/* Puntos verdes del mapa */
+.marcador-area-verde {
+    background: transparent;
+    border: none;
+}
+
+.punto-verde {
+    display: block;
+    width: 12px;
+    height: 12px;
+    background-color: #228b22;
+    border: 2px solid white;
+    border-radius: 50%;
+    box-sizing: border-box;
+}
+
+</style>
 
 <link rel="icon"
       type="image/svg+xml"
@@ -1140,11 +1165,11 @@ body {
 
             <div class="hero-meta">
 
-                <span class="hero-meta-number">29</span>
+                <span class="hero-meta-number" id="total-areas">—</span>
 
                 <span class="hero-meta-text">
                     áreas verdes<br>
-                    registradas
+                    en la selección
                 </span>
 
                 <span class="hero-meta-divider"></span>
@@ -1341,156 +1366,276 @@ body {
     <!-- JS de Leaflet -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
     <script>
-        // 1. Inicializar el mapa centrado en Santiago con zoom 12
-        var map = L.map('map').setView([-33.4489, -70.6693], 12);
+    var map = L.map('map').setView([-33.4489, -70.6693], 12);
 
-        // Capa de mapas de Esri (gratuita, sin bloqueo ni marcas de agua)
-        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+    L.tileLayer(
+        'https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',
+        {
             maxZoom: 19,
-            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, DeLorme, NAVTEQ, USGS'
-        }).addTo(map);
+            attribution: 'Tiles &copy; Esri'
+        }
+    ).addTo(map);
 
-        // Arreglo global para almacenar los marcadores activos
-        var marcadores = [];
-        var contornoActivo = null;
+    var grupoActual = null;
+    var contornoActivo = null;
+    var controlador = null;
+    var numeroSolicitud = 0;
 
+    var estado = document.createElement('p');
+    estado.setAttribute('role', 'status');
+    document.querySelector('.mapa-header').appendChild(estado);
 
-        // 2. Función para obtener parques desde la API de Django segun la comuna seleccionada
-        function cargarParques() {
-            var comunaSeleccionada = document.getElementById('comuna-select').value;
+    var iconoVerde = L.divIcon({
+        className: 'marcador-area-verde',
+        html: '<span class="punto-verde"></span>',
+        iconSize: [12, 12],
+        iconAnchor: [6, 6],
+        popupAnchor: [0, -6]
+    });
 
-            // Limpiar marcadores antiguos del mapa
-            marcadores.forEach(function(m) {
-                map.removeLayer(m);
-            });
-            marcadores = [];
-            const iconoParque = L.divIcon({
-                className: 'marcador-apple',
-                html: '<div class="pin-apple"></div>',
-                iconSize: [32, 38],
-                iconAnchor: [16, 34],
-                popupAnchor: [0, -30]
-            });
+    function ponerTexto(id, texto) {
+        var elemento = document.getElementById(id);
+        if (elemento) {
+            elemento.textContent = texto;
+        }
+    }
 
-            // Petición a la vista de Django
-            fetch('/api/parques/?comuna=' + encodeURIComponent(comunaSeleccionada))
-                .then(response => response.json())
-                .then(data => {
-                    data.parques.forEach(parque => {
-                        // Crear marcador por cada parque devuelto
-                        var ficha = document.createElement('div');
-                        ficha.className = 'ficha-parque';
-
-                        var titulo = document.createElement('h3');
-                        titulo.textContent = '🌿 ' + parque.nombre;
-
-                        var ubicacion = document.createElement('p');
-                        ubicacion.textContent = '📍 Comuna: ' + parque.comuna;
-
-                        ficha.append(titulo, ubicacion);
-                        var marker = L.marker([parque.lat, parque.lng], {
-                            icon: iconoParque
-                        }).addTo(map);
-
-                        // Zoom automático al seleccionar un parque
-                        marker.on('click', function () {
-                            if (contornoActivo) {
-                                map.removeLayer(contornoActivo);
-                                contornoActivo = null;
-                            }
-
-                            if (parque.contorno_geojson) {
-                                contornoActivo = L.geoJSON(parque.contorno_geojson, {
-                                    style: {
-                                        color: '#187a53',
-                                        weight: 3,
-                                        opacity: 1,
-                                        fillColor: '#4cb87b',
-                                        fillOpacity: 0.18
-                                    }
-                                }).addTo(map);
-                            }
-
-                            map.flyTo([parque.lat, parque.lng], 16, {
-                                animate: true,duration: 1.5
-                            });
-                            document.getElementById('detalle-nombre').textContent = parque.nombre;
-                            document.getElementById('detalle-comuna').textContent = parque.comuna;
-                            document.getElementById('detalle-parque').hidden = false;
-
-                            const foto = document.getElementById('detalle-foto');
-                            const pendiente = document.getElementById('foto-pendiente');
-
-                            if (parque.foto_url) {
-                                foto.src = parque.foto_url;
-                                foto.alt = 'Fotografía de ' + parque.nombre;
-                                foto.hidden = false;
-                                pendiente.hidden = true;
-                            } else {
-                                foto.hidden = true;
-                                pendiente.hidden = false;
-                            }
-
-                            const superficie = document.getElementById('detalle-superficie');
-                            if (parque.superficie_ha !== null && parque.superficie_ha !== undefined) {
-                                superficie.textContent = parque.superficie_ha + ' hectáreas';
-                            } else {
-                                superficie.textContent = 'No disponible todavía';
-                            }
-
-                            const descripcion = document.getElementById('detalle-descripcion');
-                            if (parque.descripcion && parque.descripcion.trim() !== '') {
-                                descripcion.textContent = parque.descripcion;
-                            } else {
-                                descripcion.textContent = 'Descripción no disponible.';
-                            }
-
-                            const actividadesContenedor = document.getElementById('detalle-actividades');
-                            actividadesContenedor.replaceChildren();
-
-                            if (Array.isArray(parque.actividades) && parque.actividades.length > 0) {
-                                parque.actividades.forEach(function (actividad) {
-                                    const etiqueta = document.createElement('span');
-                                    etiqueta.className = 'actividad-etiqueta';
-                                    etiqueta.textContent = actividad;
-                                    actividadesContenedor.appendChild(etiqueta);
-                                });
-                            } else {
-                                actividadesContenedor.textContent = 'No hay actividades registradas.';
-                            }
-                        });
-
-                        marcadores.push(marker);
-
-                    });
-                })
-                .catch(error => console.error('Error al cargar parques:', error));
+    function limpiarSeleccion() {
+        if (contornoActivo) {
+            map.removeLayer(contornoActivo);
+            contornoActivo = null;
         }
 
-        // 3. Escuchar el cambio en el selector desplegable
-        document.getElementById('comuna-select').addEventListener('change', cargarParques);
+        var detalle = document.getElementById('detalle-parque');
+        if (detalle) {
+            detalle.hidden = true;
+        }
 
-        /* Cerrar ficha y regresar al mapa inicial */
-         document.getElementById('cerrar-ficha').addEventListener('click', function() {
-            // Cerrar la ficha del parque
-            document.getElementById('detalle-parque').hidden = true;
-            // Cerrar el popup del marcador
-            if (contornoActivo) {
-                map.removeLayer(contornoActivo);
-                contornoActivo = null;
+        map.closePopup();
+    }
+
+    function mostrarDetalle(parque, latitud, longitud) {
+        limpiarSeleccion();
+
+        if (parque.contorno_geojson) {
+            try {
+            contornoActivo = L.geoJSON(parque.contorno_geojson, {
+                style: {
+                    color: '#187a53',
+                    weight: 3,
+                    opacity: 1,
+                    fillColor: '#4cb87b',
+                    fillOpacity: 0.18
+                }
+            }).addTo(map);
+            } catch (error) {
+                console.warn('No se pudo dibujar el contorno del parque.', error);
+            }
+        }
+
+        map.setView([latitud, longitud], 16, { animate: false });
+
+        ponerTexto('detalle-nombre', parque.nombre);
+        ponerTexto('detalle-comuna', parque.comuna);
+
+        var detalle = document.getElementById('detalle-parque');
+        if (detalle) {
+            detalle.hidden = false;
+        }
+
+        var foto = document.getElementById('detalle-foto');
+        var pendiente = document.getElementById('foto-pendiente');
+
+        if (foto) {
+            foto.hidden = !parque.foto_url;
+
+            if (parque.foto_url) {
+                foto.src = parque.foto_url;
+                foto.alt = 'Fotografía de ' + parque.nombre;
+            } else {
+                foto.removeAttribute('src');
+            }
+        }
+
+        if (pendiente) {
+            pendiente.hidden = Boolean(parque.foto_url);
+        }
+
+        var tieneSuperficie =
+            parque.superficie_ha !== null &&
+            parque.superficie_ha !== undefined;
+
+        ponerTexto(
+            'detalle-superficie',
+            tieneSuperficie
+                ? parque.superficie_ha + ' hectáreas'
+                : 'No disponible todavía'
+        );
+
+        ponerTexto(
+            'detalle-descripcion',
+            typeof parque.descripcion === 'string' &&
+            parque.descripcion.trim() !== ''
+                ? parque.descripcion
+                : 'Descripción no disponible.'
+        );
+
+        var actividades = document.getElementById('detalle-actividades');
+
+        if (actividades) {
+            actividades.replaceChildren();
+
+            if (
+                Array.isArray(parque.actividades) &&
+                parque.actividades.length > 0
+            ) {
+                parque.actividades.forEach(function(actividad) {
+                    var etiqueta = document.createElement('span');
+                    etiqueta.className = 'actividad-etiqueta';
+                    etiqueta.textContent = actividad;
+                    actividades.appendChild(etiqueta);
+                });
+            } else {
+                actividades.textContent = 'No hay actividades registradas.';
+            }
+        }
+    }
+
+    async function cargarParques() {
+        var solicitudActual = ++numeroSolicitud;
+
+        if (controlador) {
+            controlador.abort();
+        }
+
+        controlador = new AbortController();
+
+        var comuna = document.getElementById('comuna-select').value;
+        estado.textContent = 'Cargando áreas verdes…';
+        ponerTexto('total-areas', '—');
+        limpiarSeleccion();
+
+        try {
+            var respuesta = await fetch(
+                '/api/parques/?comuna=' + encodeURIComponent(comuna),
+                { signal: controlador.signal }
+            );
+
+            if (!respuesta.ok) {
+                throw new Error('No se pudieron obtener los parques.');
             }
 
-            map.closePopup();
-            // Regresar a la vista inicial de Santiago
-            map.flyTo([-33.4489, -70.6693], 12, {
-                duration: 1.2
+            var datos = await respuesta.json();
+
+            if (solicitudActual !== numeroSolicitud) {
+                return;
+            }
+
+            if (!Array.isArray(datos.parques)) {
+                throw new Error('La respuesta no contiene una lista de parques.');
+            }
+
+            var nuevoGrupo = L.markerClusterGroup({
+                maxClusterRadius: 65,
+                showCoverageOnHover: false,
+                zoomToBoundsOnClick: true,
+                spiderfyOnMaxZoom: true,
+                removeOutsideVisibleBounds: true,
+                chunkedLoading: true,
+                chunkInterval: 40,
+                chunkDelay: 30,
+                animate: false,
+                animateAddingMarkers: false
             });
-});
 
-        // Cargar parques automáticamente al abrir la página
-        cargarParques();
-    </script>
+            var marcadores = [];
+            var limites = L.latLngBounds([]);
 
+            datos.parques.forEach(function(parque) {
+                if (
+                    parque.lat === null || parque.lat === undefined ||
+                    parque.lng === null || parque.lng === undefined ||
+                    String(parque.lat).trim() === '' ||
+                    String(parque.lng).trim() === ''
+                ) {
+                    return;
+                }
+
+                var latitud = Number(parque.lat);
+                var longitud = Number(parque.lng);
+
+                if (
+                    !Number.isFinite(latitud) ||
+                    !Number.isFinite(longitud) ||
+                    latitud < -90 || latitud > 90 ||
+                    longitud < -180 || longitud > 180
+                ) {
+                    return;
+                }
+
+                var marcador = L.marker([latitud, longitud], {
+                    icon: iconoVerde
+                });
+
+                marcador.on('click', function() {
+                    mostrarDetalle(parque, latitud, longitud);
+                });
+
+                marcadores.push(marcador);
+                limites.extend([latitud, longitud]);
+            });
+
+            if (grupoActual) {
+                map.removeLayer(grupoActual);
+            }
+
+            grupoActual = nuevoGrupo;
+            map.addLayer(nuevoGrupo);
+            nuevoGrupo.addLayers(marcadores);
+
+            estado.textContent =
+                marcadores.length + ' áreas verdes encontradas.';
+            ponerTexto('total-areas', marcadores.length.toLocaleString('es-CL'));
+
+            if (comuna !== 'todas' && limites.isValid()) {
+                map.fitBounds(limites, {
+                    padding: [30, 30],
+                    maxZoom: 15,
+                    animate: false
+                });
+            }
+        } catch (error) {
+            if (
+                error.name !== 'AbortError' &&
+                solicitudActual === numeroSolicitud
+            ) {
+                estado.textContent = 'No fue posible cargar las áreas verdes.';
+                console.error(error);
+            }
+        }
+    }
+
+    var fotoDetalle = document.getElementById('detalle-foto');
+    fotoDetalle.addEventListener('error', function() {
+        fotoDetalle.hidden = true;
+        document.getElementById('foto-pendiente').hidden = false;
+    });
+
+    var botonCerrar = document.getElementById('cerrar-ficha');
+
+    if (botonCerrar) {
+        botonCerrar.addEventListener('click', function() {
+            limpiarSeleccion();
+            map.setView([-33.4489, -70.6693], 12, { animate: false });
+        });
+    }
+
+    document.getElementById('comuna-select')
+        .addEventListener('change', cargarParques);
+
+    cargarParques();
+</script>
 </body>
 </html>

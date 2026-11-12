@@ -27,4 +27,4 @@ La contraseña no se muestra mientras escribes; es normal.
 python manage.py runserver
 
 
-5.Entra a http://127.0.0.1:8000/admin/ e inicia sesión con la cuenta creada.
+5. Entra a [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/) e inicia sesión con la cuenta creada.
