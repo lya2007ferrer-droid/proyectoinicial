@@ -31,6 +31,7 @@ def api_obtener_parques(request):
             'superficie_ha': float(parque.superficie_ha) if parque.superficie_ha is not None else None,
             'foto_url': parque.foto.url if parque.foto else None,
             'credito_foto': parque.credito_foto,
+            'contorno_geojson': parque.contorno_geojson,
             'actividades': list(parque.actividades.values_list('nombre', flat=True))
             })
 

@@ -22,3 +22,6 @@ media/
 
 # Clave secreta local de Django
 .django_secret_key
+
+/GeoVerde_fotos.zip
+/cerrar_geoverde.sh

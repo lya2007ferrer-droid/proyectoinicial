@@ -14,6 +14,10 @@ class Actividad(models.Model):
 
 
 class areasverdes(models.Model):
+    contorno_geojson = models.JSONField(
+        null=True,
+        blank=True
+    )
     Comunas = [
         ("ALHUÉ", "ALHUÉ"),
         ("BUIN", "BUIN"),

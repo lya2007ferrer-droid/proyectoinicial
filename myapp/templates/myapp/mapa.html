@@ -1,9 +1,10 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Áreas Verdes en Santiago</title>
+    <title>GeoVerde | Descubre los espacios verdes de Santiago</title>
 
     <!-- CSS de Leaflet para el mapa -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -348,15 +349,744 @@ a:focus-visible,
     font-weight: 500;
 }
 
+/* MARCADORES ESTILO APPLE MAPS */
+
+.marcador-apple {
+    background: transparent;
+    border: none;
+}
+
+.pin-apple {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 28px;
+    height: 28px;
+
+    background: white;
+    border: 2px solid #176443;
+    border-radius: 50% 50% 50% 0;
+
+    transform: rotate(-45deg);
+
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+    transition: transform 0.2s ease;
+}
+
+.pin-apple::after {
+    content: "";
+    position: absolute;
+
+    width: 10px;
+    height: 10px;
+    top: 7px;
+    left: 7px;
+
+    background: #176443;
+    border-radius: 50%;
+}
+
+.marcador-apple:hover .pin-apple {
+    transform: rotate(-45deg) scale(1.15);
+}
+
+ /* REDISEÑO ÁREAS VERDES SANTIAGO */
+
+:root {
+    --bosque: #164d39;
+    --bosque-profundo: #103d2d;
+    --verde-medio: #247e57;
+    --menta: #e4f2e9;
+    --marfil: #f6f9f5;
+}
+
+body {
+    background: #f5f8f5;
+}
+
+/* BARRA DE NAVEGACIÓN */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 2000;
+    background: rgba(19, 72, 52, 0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(255,255,255,0.12);
+    box-shadow: 0 4px 24px rgba(14,50,36,0.10);
+}
+
+.navbar a {
+    transition: background 0.2s ease;
+    border-radius: 12px;
+}
+
+.navbar a:hover {
+    background: rgba(255,255,255,0.12);
+    text-decoration: none;
+}
+
+/* PORTADA PRINCIPAL */
+
+.hero {
+    background:
+        radial-gradient(
+            circle at 85% 20%,
+            rgba(126,187,139,0.26),
+            transparent 30%
+        ),
+        linear-gradient(
+            120deg,
+            #eff8ef 0%,
+            #e1f0e7 60%,
+            #d1e8d9 100%
+        );
+    padding: 65px 0;
+    overflow: hidden;
+}
+
+.hero-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 55px;
+    align-items: center;
+}
+
+.hero-copy {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 15px;
+    border-radius: 30px;
+    border: 1px solid #bdd9c5;
+    background: rgba(255,255,255,0.7);
+    font-size: 12px;
+    font-weight: 700;
+    color: #1b6546;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: #39a875;
+    border-radius: 50%;
+    box-shadow: 0 0 0 4px #dbefe1;
+}
+
+.hero h1 {
+    font-size: clamp(36px, 4.5vw, 62px);
+    line-height: 1.1;
+    letter-spacing: -2px;
+    color: var(--bosque-profundo);
+    margin: 24px 0 20px;
+    font-weight: 800;
+}
+
+.hero h1 em {
+    font-style: normal;
+    color: var(--verde-medio);
+}
+
+.hero p {
+    font-size: 16px;
+    line-height: 1.75;
+    color: #526a5d;
+    max-width: 570px;
+}
+
+/* BOTONES DE LA PORTADA */
+
+.hero-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    flex-wrap: wrap;
+}
+
+.hero-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 14px 22px;
+    border-radius: 13px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.hero-btn:hover {
+    transform: translateY(-3px);
+    text-decoration: none;
+}
+
+.hero-btn-primary {
+    background: var(--bosque);
+    color: white;
+    box-shadow: 0 7px 22px rgba(19,77,55,0.17);
+}
+
+.hero-btn-primary:hover {
+    background: #206b4b;
+    color: white;
+}
+
+.hero-btn-secondary {
+    background: rgba(255,255,255,0.75);
+    color: var(--bosque);
+    border: 1px solid #b8d4bf;
+}
+
+/* INDICADORES DE LA PORTADA */
+
+.hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin-top: 32px;
+}
+
+.hero-meta-number {
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--bosque);
+}
+
+.hero-meta-text {
+    font-size: 13px;
+    line-height: 1.45;
+    color: #4e715c;
+}
+
+.hero-meta-divider {
+    height: 34px;
+    width: 1px;
+    background: #bdd6c4;
+    margin: 0 8px;
+}
+
+.hero-meta-icon {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    background: rgba(255,255,255,0.75);
+    border-radius: 12px;
+    font-size: 20px;
+}
+
+/* ILUSTRACIÓN DECORATIVA DE LA PORTADA */
+
+.hero-visual {
+    position: relative;
+    min-height: 350px;
+    border-radius: 27px;
+    overflow: hidden;
+    background: #dcebcf;
+    border: 1px solid rgba(43,120,80,0.13);
+    box-shadow: 0 23px 50px rgba(33,91,56,0.15);
+    isolation: isolate;
+}
+
+.hero-visual::before {
+    content: "";
+    position: absolute;
+    inset: -40px;
+    background:
+        repeating-linear-gradient(
+            90deg,
+            transparent 0 46px,
+            rgba(255,255,255,0.52) 47px 55px,
+            transparent 56px 103px
+        ),
+        repeating-linear-gradient(
+            0deg,
+            transparent 0 40px,
+            rgba(255,255,255,0.48) 41px 48px,
+            transparent 49px 103px
+        );
+    transform: rotate(-13deg) scale(1.1);
+    opacity: 0.65;
+}
+
+.visual-park {
+    position: absolute;
+    z-index: 1;
+    background: rgba(68,145,85,0.35);
+    border: 2px solid rgba(255,255,255,0.36);
+    border-radius: 40% 58% 35% 65%;
+}
+
+.visual-park.one {
+    width: 185px;
+    height: 115px;
+    left: 10%;
+    top: 10%;
+    transform: rotate(-22deg);
+}
+
+.visual-park.two {
+    width: 180px;
+    height: 140px;
+    right: -16px;
+    bottom: 17%;
+    transform: rotate(25deg);
+}
+
+.visual-park.three {
+    width: 110px;
+    height: 80px;
+    left: 23%;
+    bottom: 13%;
+}
+
+.visual-pin {
+    position: absolute;
+    z-index: 3;
+    width: 29px;
+    height: 29px;
+    background: white;
+    border: 2px solid var(--bosque);
+    border-radius: 50% 50% 50% 0;
+    transform: rotate(-45deg);
+    box-shadow: 0 4px 12px rgba(14,62,40,0.18);
+}
+
+.visual-pin::after {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    background: var(--bosque);
+    border-radius: 50%;
+}
+
+.visual-pin.one {
+    top: 24%;
+    left: 34%;
+}
+
+.visual-pin.two {
+    top: 45%;
+    right: 24%;
+}
+
+.visual-pin.three {
+    bottom: 21%;
+    left: 21%;
+}
+
+.hero-visual-card {
+    position: absolute;
+    z-index: 5;
+    bottom: 20px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255,255,255,0.95);
+    padding: 15px 18px;
+    border-radius: 16px;
+    box-shadow: 0 14px 30px rgba(35,88,52,0.15);
+}
+
+.visual-card-icon {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: #e5f2e8;
+    color: #1f6c49;
+    font-size: 20px;
+}
+
+.hero-visual-card strong {
+    display: block;
+    font-size: 13px;
+    color: #244e38;
+}
+
+.hero-visual-card small {
+    display: block;
+    font-size: 11px;
+    color: #698073;
+    margin-top: 4px;
+}
+
+/* TARJETAS DE FILTRO Y MAPA */
+
+.layout {
+    gap: 23px;
+    padding-top: 34px;
+}
+
+.filtros,
+.mapa-panel {
+    background: white;
+    border: 1px solid #e2ebe4;
+    border-radius: 22px;
+    box-shadow: 0 12px 34px rgba(24,77,48,0.08);
+}
+
+.filtros {
+    padding: 26px 24px;
+}
+
+.filtros h2,
+.mapa-header h2 {
+    color: var(--bosque-profundo);
+    font-size: 22px;
+    letter-spacing: -0.5px;
+}
+
+.filtros p {
+    line-height: 1.65;
+}
+
+#comuna-select {
+    min-height: 48px;
+    border-radius: 12px;
+    border: 1px solid #c9dfcf;
+    background: #fcfefd;
+}
+
+#comuna-select:hover {
+    border-color: #8fbea0;
+}
+
+.mapa-panel {
+    overflow: hidden;
+}
+
+.mapa-header {
+    padding: 26px;
+    border-bottom: 1px solid #eff2ef;
+}
+
+.mapa-header h2 {
+    margin-bottom: 8px;
+}
+
+.mapa-header p {
+    color: #5e7769;
+}
+
+/* MAPA */
+
+#map {
+    height: clamp(420px, 66vh, 650px);
+}
+
+/* FICHA DE INFORMACIÓN DEL PARQUE */
+
+.detalle-parque {
+    width: min(340px, calc(100% - 30px));
+    max-height: min(590px, calc(100% - 130px));
+    overflow-y: auto;
+    border: 1px solid #deebdf;
+    border-radius: 20px;
+    box-shadow: 0 16px 44px rgba(12,56,33,0.20);
+}
+
+.foto-parque {
+    height: 172px;
+}
+
+.detalle-contenido {
+    padding: 22px;
+}
+
+.detalle-contenido h3 {
+    font-size: 22px;
+    line-height: 1.25;
+}
+
+.detalle-contenido p {
+    line-height: 1.6;
+}
+
+.actividad-etiqueta {
+    background: #e7f4ea;
+    color: #1b6548;
+    padding: 8px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+}
+
+/* ADAPTACIÓN PARA CELULARES */
+
+@media (max-width: 980px) {
+    .hero-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-visual {
+        min-height: 280px;
+    }
+}
+
+@media (max-width: 800px) {
+    .layout {
+        padding-top: 22px;
+        gap: 18px;
+    }
+
+    #map {
+        height: 490px;
+    }
+}
+
+@media (max-width: 520px) {
+    .container {
+        padding-inline: 18px;
+    }
+
+    .hero {
+        padding: 40px 0;
+    }
+
+    .hero h1 {
+        font-size: 37px;
+    }
+
+    .hero-visual {
+        min-height: 220px;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+    }
+
+    .hero-btn {
+        width: 100%;
+    }
+
+    .hero-meta {
+        flex-wrap: wrap;
+    }
+
+    .mapa-header,
+    .filtros {
+        padding: 21px;
+    }
+
+    #map {
+        height: 450px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-btn {
+        transition: none;
+    }
+
+    .hero-btn:hover {
+        transform: none;
+    }
+}
+
+/* IDENTIDAD VISUAL GEOVERDE*/
+
+.navbar .geoverde-marca {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: #ffffff;
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+}
+
+.navbar .geoverde-marca:hover {
+    color: #ffffff;
+    background: transparent;
+    text-decoration: none;
+}
+
+.geoverde-simbolo {
+    width: 44px;
+    height: 44px;
+    padding: 5px;
+    background: #edf6e8;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.geoverde-mini {
+    display: none;
+}
+
+.geoverde-nombre {
+    color: #ffffff;
+}
+
+/* Adaptación para celular */
+@media (max-width: 520px) {
+
+    .geoverde-simbolo {
+        display: none;
+    }
+
+    .geoverde-mini {
+        display: block;
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+    }
+
+    .navbar .geoverde-marca {
+        font-size: 21px;
+        gap: 8px;
+    }
+}
+
+
+/* =================================
+   GEOVERDE - DATOS DE LOS PARQUES
+   ================================= */
+
+.detalle-dato {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 16px 0;
+}
+
+.detalle-icono {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+
+    background: #eaf3ed;
+    color: #176443;
+
+    border: 1px solid #d5e8da;
+    border-radius: 12px;
+}
+
+.detalle-icono svg {
+    width: 21px;
+    height: 21px;
+}
+
+.detalle-dato-texto {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.detalle-etiqueta {
+    font-size: 12px;
+    font-weight: 700;
+    color: #688071;
+
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.detalle-valor,
+#detalle-comuna,
+#detalle-superficie {
+    font-size: 15px;
+    font-weight: 800;
+    color: #164d39;
+    line-height: 1.4;
+}
+
+.detalle-actividades h4 {
+    color: #164d39;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* GeoVerde: comuna en negrita */
+#detalle-comuna {
+    font-weight: 700;
+}
+
+
  </style>
+
+<link rel="icon"
+      type="image/svg+xml"
+      href="{% static 'myapp/geoverde-icono.svg' %}">
+
 </head>
 <body>
 <!-- BARRA DE NAVEGACIÓN -->
 <header class="navbar">
     <div class="container">
-        <div class="logo">
-            🌿 Áreas Verdes Santiago
-        </div>
+        <a href="#inicio" class="logo geoverde-marca">
+
+    <!-- LOGO PRINCIPAL: NATURALEZA + CIUDAD -->
+    <svg class="geoverde-simbolo"
+         viewBox="0 0 64 64"
+         xmlns="http://www.w3.org/2000/svg"
+         aria-hidden="true">
+
+        <!-- Vegetación y paisaje -->
+        <path d="M3 19 C15 5 28 3 37 13
+                 L29 20 C23 17 14 19 3 30Z"
+              fill="#155A3D"/>
+
+        <!-- Silueta urbana -->
+        <path d="M32 17 L37 11 L37 26
+                 L43 18 L43 12 L49 9 L55 16
+                 L55 32 C47 32 41 29 35 24Z"
+              fill="#94A85E"/>
+
+        <!-- Área verde central -->
+        <path d="M3 34 C13 25 22 27 30 31
+                 C35 34 40 32 45 29
+                 L53 34 C42 45 34 47 26 41
+                 C17 35 11 39 3 47Z"
+              fill="#85BE98"/>
+
+        <!-- Terreno inferior -->
+        <path d="M10 54 C22 44 29 45 37 48
+                 C46 51 53 45 59 40
+                 L59 53 C44 59 26 58 10 54Z"
+              fill="#155A3D"/>
+    </svg>
+
+    <!-- LOGO PEQUEÑO PARA CELULAR -->
+    <svg class="geoverde-mini"
+         viewBox="0 0 64 64"
+         xmlns="http://www.w3.org/2000/svg"
+         aria-hidden="true">
+
+        <rect x="8" y="8" width="23" height="23"
+              rx="9" fill="#155A3D"/>
+
+        <rect x="34" y="8" width="22" height="23"
+              rx="9" fill="#B7DBBD"/>
+
+        <rect x="8" y="34" width="23" height="22"
+              rx="9" fill="#71A34E"/>
+
+        <rect x="34" y="34" width="22" height="22"
+              rx="9" fill="#155A3D"/>
+    </svg>
+
+    <span class="geoverde-nombre">GeoVerde</span>
+
+    </a>
+
 
         <nav>
             <a href="#inicio">Inicio</a>
@@ -367,14 +1097,104 @@ a:focus-visible,
 
 <!-- PORTADA -->
 <section class="hero" id="inicio">
-    <div class="container">
-        <h1>Descubre los espacios verdes de Santiago</h1>
+        <div class="container hero-grid">
 
-        <p>
-            Encuentra parques, plazas y lugares
-            para disfrutar de la naturaleza.
-            Explora las áreas verdes de tu comuna.
-        </p>
+        <!-- COLUMNA IZQUIERDA -->
+
+        <div class="hero-copy">
+
+            <span class="hero-eyebrow">
+                <span class="status-dot"></span>
+                TU CIUDAD, MÁS VERDE
+            </span>
+
+            <h1>
+                Descubre los espacios verdes
+                <em>de Santiago.</em>
+            </h1>
+
+            <p>
+                Encuentra parques, plazas y espacios donde
+                desconectarte, moverte y disfrutar la ciudad.
+                Explora por comuna y descubre qué puedes hacer
+                en cada lugar.
+            </p>
+
+            <!-- BOTONES -->
+
+            <div class="hero-actions">
+
+                <a href="#explorar"
+                   class="hero-btn hero-btn-primary">
+                    Explorar parques ↗
+                </a>
+
+                <a href="#explorar"
+                   class="hero-btn hero-btn-secondary">
+                    Ver mapa interactivo
+                </a>
+
+            </div>
+
+            <!-- INFORMACIÓN DESTACADA -->
+
+            <div class="hero-meta">
+
+                <span class="hero-meta-number">29</span>
+
+                <span class="hero-meta-text">
+                    áreas verdes<br>
+                    registradas
+                </span>
+
+                <span class="hero-meta-divider"></span>
+
+                <span class="hero-meta-icon"
+                      aria-hidden="true">
+                    ✦
+                </span>
+
+                <span class="hero-meta-text">
+                    Encuentra actividades<br>
+                    e instalaciones
+                </span>
+
+            </div>
+
+        </div>
+
+        <!-- COLUMNA DERECHA -->
+
+        <div class="hero-visual" aria-hidden="true">
+
+            <div class="visual-park one"></div>
+            <div class="visual-park two"></div>
+            <div class="visual-park three"></div>
+
+            <span class="visual-pin one"></span>
+            <span class="visual-pin two"></span>
+            <span class="visual-pin three"></span>
+
+            <div class="hero-visual-card">
+
+                <span class="visual-card-icon">
+                    ✦
+                </span>
+
+                <div>
+                    <strong>
+                        Tu próximo espacio verde
+                    </strong>
+
+                    <small>
+                        Descúbrelo en el mapa
+                    </small>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
 </section>
 
@@ -444,28 +1264,73 @@ a:focus-visible,
 </div>
 
 
-    <div class="detalle-contenido">
-        <h3 id="detalle-nombre"></h3>
-        <p>📍 <span id="detalle-comuna"></span></p>
+<div class="detalle-contenido">
 
-        <p class="detalle-superficie">
-            📐 <strong>Superficie:</strong>
-            <span id="detalle-superficie">No disponible todavía</span>
-        </p>
+    <h3 id="detalle-nombre"></h3>
 
-        <hr>
+    <!-- UBICACIÓN -->
+    <div class="detalle-dato">
+        <span class="detalle-icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="1.8"
+                 stroke-linecap="round"
+                 stroke-linejoin="round">
+                <path d="M12 21s-7-5.8-7-12a7 7 0 1 1 14 0c0 6.2-7 12-7 12Z"/>
+                <circle cx="12" cy="9" r="2.5"/>
+            </svg>
+        </span>
 
-        <p id = "detalle-descripcion">
-            Descripción del parque próximamente.
-        </p>
-
-        <div class="detalle-actividades">
-            <h4>🌿 Actividades e instalaciones</h4>
-            <div id="detalle-actividades" class="lista-actividades">
-                Actividades no disponibles.
-            </div>
+        <div class="detalle-dato-texto">
+            <span class="detalle-etiqueta">Ubicación</span>
+            <strong id="detalle-comuna" class="detalle-valor"></strong>
         </div>
     </div>
+
+    <!-- SUPERFICIE -->
+    <div class="detalle-dato detalle-superficie">
+        <span class="detalle-icono" aria-hidden="true">
+            <svg viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+                <path d="M9 4H4v5"/>
+                <path d="M15 4h5v5"/>
+                <path d="M20 15v5h-5"/>
+                <path d="M9 20H4v-5"/>
+            </svg>
+        </span>
+
+        <div class="detalle-dato-texto">
+            <span class="detalle-etiqueta">Superficie</span>
+            <strong id="detalle-superficie" class="detalle-valor">
+                No disponible todavía
+            </strong>
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- DESCRIPCIÓN -->
+    <p id="detalle-descripcion">
+        Descripción del parque próximamente.
+    </p>
+
+    <!-- ACTIVIDADES -->
+    <div class="detalle-actividades">
+        <h4>Actividades e instalaciones</h4>
+
+        <div id="detalle-actividades" class="lista-actividades">
+            Actividades no disponibles.
+        </div>
+    </div>
+
+</div>
+
 </aside>
 
     </section>
@@ -488,6 +1353,8 @@ a:focus-visible,
 
         // Arreglo global para almacenar los marcadores activos
         var marcadores = [];
+        var contornoActivo = null;
+
 
         // 2. Función para obtener parques desde la API de Django segun la comuna seleccionada
         function cargarParques() {
@@ -498,6 +1365,13 @@ a:focus-visible,
                 map.removeLayer(m);
             });
             marcadores = [];
+            const iconoParque = L.divIcon({
+                className: 'marcador-apple',
+                html: '<div class="pin-apple"></div>',
+                iconSize: [32, 38],
+                iconAnchor: [16, 34],
+                popupAnchor: [0, -30]
+            });
 
             // Petición a la vista de Django
             fetch('/api/parques/?comuna=' + encodeURIComponent(comunaSeleccionada))
@@ -515,30 +1389,45 @@ a:focus-visible,
                         ubicacion.textContent = '📍 Comuna: ' + parque.comuna;
 
                         ficha.append(titulo, ubicacion);
+                        var marker = L.marker([parque.lat, parque.lng], {
+                            icon: iconoParque
+                        }).addTo(map);
 
-                        var marker = L.marker([parque.lat, parque.lng])
-                            .bindPopup(ficha)
-                            .addTo(map);
-                            // Zoom automático al seleccionar un parque
-                        marker.on('click', function() {
+                        // Zoom automático al seleccionar un parque
+                        marker.on('click', function () {
+                            if (contornoActivo) {
+                                map.removeLayer(contornoActivo);
+                                contornoActivo = null;
+                            }
+
+                            if (parque.contorno_geojson) {
+                                contornoActivo = L.geoJSON(parque.contorno_geojson, {
+                                    style: {
+                                        color: '#187a53',
+                                        weight: 3,
+                                        opacity: 1,
+                                        fillColor: '#4cb87b',
+                                        fillOpacity: 0.18
+                                    }
+                                }).addTo(map);
+                            }
+
                             map.flyTo([parque.lat, parque.lng], 16, {
-                                animate: true,
-                                duration: 1.5
+                                animate: true,duration: 1.5
                             });
                             document.getElementById('detalle-nombre').textContent = parque.nombre;
                             document.getElementById('detalle-comuna').textContent = parque.comuna;
                             document.getElementById('detalle-parque').hidden = false;
+
                             const foto = document.getElementById('detalle-foto');
                             const pendiente = document.getElementById('foto-pendiente');
+
                             if (parque.foto_url) {
                                 foto.src = parque.foto_url;
                                 foto.alt = 'Fotografía de ' + parque.nombre;
                                 foto.hidden = false;
                                 pendiente.hidden = true;
-                            }
-
-                            else {
-                                foto.removeAttribute('src');
+                            } else {
                                 foto.hidden = true;
                                 pendiente.hidden = false;
                             }
@@ -546,33 +1435,34 @@ a:focus-visible,
                             const superficie = document.getElementById('detalle-superficie');
                             if (parque.superficie_ha !== null && parque.superficie_ha !== undefined) {
                                 superficie.textContent = parque.superficie_ha + ' hectáreas';
-                            }
-                            else {
+                            } else {
                                 superficie.textContent = 'No disponible todavía';
                             }
+
                             const descripcion = document.getElementById('detalle-descripcion');
                             if (parque.descripcion && parque.descripcion.trim() !== '') {
                                 descripcion.textContent = parque.descripcion;
-                            }
-                            else {
+                            } else {
                                 descripcion.textContent = 'Descripción no disponible.';
                             }
+
                             const actividadesContenedor = document.getElementById('detalle-actividades');
                             actividadesContenedor.replaceChildren();
+
                             if (Array.isArray(parque.actividades) && parque.actividades.length > 0) {
-                                parque.actividades.forEach(function(actividad) {
+                                parque.actividades.forEach(function (actividad) {
                                     const etiqueta = document.createElement('span');
                                     etiqueta.className = 'actividad-etiqueta';
                                     etiqueta.textContent = actividad;
                                     actividadesContenedor.appendChild(etiqueta);
                                 });
-                            }
-                            else {
+                            } else {
                                 actividadesContenedor.textContent = 'No hay actividades registradas.';
                             }
-
                         });
+
                         marcadores.push(marker);
+
                     });
                 })
                 .catch(error => console.error('Error al cargar parques:', error));
@@ -581,9 +1471,22 @@ a:focus-visible,
         // 3. Escuchar el cambio en el selector desplegable
         document.getElementById('comuna-select').addEventListener('change', cargarParques);
 
-        // Botón para cerrar la tarjeta lateral
-        document.getElementById('cerrar-ficha').addEventListener('click', function() {
-        document.getElementById('detalle-parque').hidden = true;});
+        /* Cerrar ficha y regresar al mapa inicial */
+         document.getElementById('cerrar-ficha').addEventListener('click', function() {
+            // Cerrar la ficha del parque
+            document.getElementById('detalle-parque').hidden = true;
+            // Cerrar el popup del marcador
+            if (contornoActivo) {
+                map.removeLayer(contornoActivo);
+                contornoActivo = null;
+            }
+
+            map.closePopup();
+            // Regresar a la vista inicial de Santiago
+            map.flyTo([-33.4489, -70.6693], 12, {
+                duration: 1.2
+            });
+});
 
         // Cargar parques automáticamente al abrir la página
         cargarParques();
