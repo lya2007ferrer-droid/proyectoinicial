@@ -28,3 +28,5 @@ media/
 
 db.sqlite3
 db_*.sqlite3
+
+.django_secret_key
