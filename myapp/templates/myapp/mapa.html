@@ -1500,9 +1500,50 @@ body {
             } else {
                 actividades.textContent = 'No hay actividades registradas.';
             }
+            var boton = document.createElement('button');
+boton.textContent = 'Sugerir actividad';
+boton.type = 'button';
+boton.className = 'actividad-etiqueta';
+
+boton.onclick = function() {
+    sugerirActividad(parque.id);
+};
+
+actividades.appendChild(boton);
         }
     }
+async function sugerirActividad(parqueId) {
+    var nombre = prompt('¿Qué actividad deseas sugerir?');
 
+    if (!nombre || !nombre.trim()) {
+        return;
+    }
+
+    try {
+        var respuesta = await fetch(
+            '/api/parques/' + parqueId + '/sugerir/',
+            {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: new URLSearchParams({
+                    nombre: nombre.trim()
+                })
+            }
+        );
+
+        var datos = await respuesta.json();
+
+        if (respuesta.ok) {
+            alert('¡Sugerencia enviada correctamente!');
+        } else {
+            alert(datos.error || 'No se pudo enviar');
+        }
+    } catch (error) {
+        alert('Error al enviar la sugerencia');
+    }
+}
     async function cargarParques() {
         var solicitudActual = ++numeroSolicitud;
 
