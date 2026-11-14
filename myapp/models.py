@@ -107,3 +107,22 @@ class areasverdes(models.Model):
 
     def __str__(self):
         return f"{self.nombre} ({self.get_comuna_display()})"
+class ActividadSugerida(models.Model):
+    parque = models.ForeignKey(
+        areasverdes,
+        on_delete=models.CASCADE,
+        related_name='actividades_sugeridas'
+    )
+
+    nombre = models.CharField(max_length=100)
+    aprobada = models.BooleanField(default=False)
+    creada = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-creada']
+        verbose_name = 'Actividad sugerida'
+        verbose_name_plural = 'Actividades sugeridas'
+
+    def __str__(self):
+        return self.nombre
+        
