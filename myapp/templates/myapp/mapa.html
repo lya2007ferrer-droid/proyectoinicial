@@ -1553,9 +1553,10 @@ async function sugerirActividad(parqueId) {
 
         var datos = await respuesta.json();
 
-        if (respuesta.ok) {
-            alert('¡Sugerencia enviada correctamente!');
-        } else {
+       if (respuesta.ok) {
+        alert('¡Actividad agregada correctamente!');
+        await cargarParques();
+        } else  {
             alert(datos.error || 'No se pudo enviar');
         }
     } catch (error) {
