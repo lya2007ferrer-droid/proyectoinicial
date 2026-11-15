@@ -56,7 +56,7 @@ def sugerir_actividad(request, parque_id):
     ActividadSugerida.objects.create(
         parque=parque,
         nombre=nombre,
-        aprobada=False
+        aprobada=True
     )
 
     return JsonResponse({
